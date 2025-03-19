@@ -6,7 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 /****
  * Project: WallapersApp
  * From: com.bo.victor.wallapersapp
- * Created by: Victor Sanjines Lopez on 19/3/2025 at 11:25
+ * Created by: Victor Sanjines Lopez on 19/3/2025
  * More info: www.victorsanjines.com.bo
  * All rights reserved 2025
  ****/

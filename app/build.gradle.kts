@@ -75,4 +75,6 @@ dependencies {
 
     // Coil para carga de imágenes
     implementation(libs.coil.compose)
+
+    implementation(libs.material.icons)
 }
