@@ -26,6 +26,9 @@ class WallpaperViewModel @Inject constructor(
     val selectedImages: StateFlow<List<Uri>> = repository.selectedImages
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    val interval: StateFlow<Int> = repository.interval
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 15)
+
     fun addImage(uri: Uri) {
         viewModelScope.launch {
             repository.addImage(uri)
@@ -35,6 +38,12 @@ class WallpaperViewModel @Inject constructor(
     fun removeImage(uri: Uri) {
         viewModelScope.launch {
             repository.removeImage(uri)
+        }
+    }
+
+    fun setInterval(minutes: Int) {
+        viewModelScope.launch {
+            repository.setInterval(minutes)
         }
     }
 }

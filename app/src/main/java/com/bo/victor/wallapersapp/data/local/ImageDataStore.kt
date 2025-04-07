@@ -3,6 +3,7 @@ package com.bo.victor.wallapersapp.data.local
 import android.content.Context
 import android.net.Uri
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -22,11 +23,17 @@ private val Context.datastore by preferencesDataStore(name = "image_store")
 class ImageDataStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val IMAGES_KEY = stringSetPreferencesKey("images_uris")
+    private val IMAGES_KEY = stringSetPreferencesKey("image_uris")
+    private val INTERVAL_KEY = intPreferencesKey("interval_minutes")
 
     val imagesFlow: Flow<List<Uri>> = context.datastore.data
         .map { prefs ->
             prefs[IMAGES_KEY]?.map { Uri.parse(it) } ?: emptyList()
+        }
+
+    val intervalFlow: Flow<Int> = context.datastore.data
+        .map { prefs ->
+            prefs[INTERVAL_KEY] ?: 15
         }
 
     suspend fun saveImage(uri: Uri) {
@@ -42,6 +49,12 @@ class ImageDataStore @Inject constructor(
             val current = prefs[IMAGES_KEY]?.toMutableSet() ?: mutableSetOf()
             current.remove(uri.toString())
             prefs[IMAGES_KEY] = current
+        }
+    }
+
+    suspend fun setInterval(minutes: Int) {
+        context.datastore.edit { prefs ->
+            prefs[INTERVAL_KEY] = minutes
         }
     }
 }

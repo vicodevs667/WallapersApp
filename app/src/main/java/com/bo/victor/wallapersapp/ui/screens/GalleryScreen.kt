@@ -20,8 +20,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -33,19 +33,14 @@ import com.bo.victor.wallapersapp.presentation.viewmodel.WallpaperViewModel
 /****
  * Project: WallapersApp
  * From: com.bo.victor.wallapersapp.ui.screens
- * Created by: Victor Sanjines Lopez on 19/3/2025
+ * Created by: Victor Sanjines Lopez on 7/4/2025
  * More info: www.victorsanjines.com.bo
- * All rights reserved 2025
+ * All rights reserved 202
  ****/
-
-@Composable
-fun HomeScreen(navController: NavHostController) {
-    Text(text = "Pantalla de Inicio")
-}
-
 @Composable
 fun GalleryScreen(navController: NavHostController, wallpaperViewModel: WallpaperViewModel = hiltViewModel()) {
-    val selectedImages = remember { derivedStateOf { wallpaperViewModel.selectedImages } }.value
+    //val selectedImages = remember { derivedStateOf { wallpaperViewModel.selectedImages } }.value
+    val selectedImages by wallpaperViewModel.selectedImages.collectAsState()
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -60,10 +55,10 @@ fun GalleryScreen(navController: NavHostController, wallpaperViewModel: Wallpape
     }
 
     Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp),
-    horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -100,10 +95,4 @@ fun GalleryScreen(navController: NavHostController, wallpaperViewModel: Wallpape
             }
         }
     }
-}
-
-
-@Composable
-fun SettingsScreen(navController: NavHostController) {
-    Text(text = "Configuraciones")
 }

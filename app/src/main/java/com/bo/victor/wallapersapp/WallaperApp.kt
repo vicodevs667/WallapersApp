@@ -1,7 +1,10 @@
 package com.bo.victor.wallapersapp
 
 import android.app.Application
+import androidx.work.Configuration
+import androidx.work.WorkerFactory
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 /****
  * Project: WallapersApp
@@ -11,4 +14,14 @@ import dagger.hilt.android.HiltAndroidApp
  * All rights reserved 2025
  ****/
 @HiltAndroidApp
-class WallaperApp : Application()
+class WallaperApp : Application(), Configuration.Provider {
+
+    @Inject
+    lateinit var workerFactory: WorkerFactory
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
+}

@@ -16,9 +16,12 @@ class ImageRepository @Inject constructor(
     private val dataStore: ImageDataStore
 ) {
     val selectedImages: Flow<List<Uri>> = dataStore.imagesFlow
+    val interval: Flow<Int> = dataStore.intervalFlow
 
     suspend fun addImage(uri: Uri) = dataStore.saveImage(uri)
 
     suspend fun removeImage(uri: Uri) = dataStore.removeImage(uri)
+
+    suspend fun setInterval(minutes: Int) = dataStore.setInterval(minutes)
 
 }

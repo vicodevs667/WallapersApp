@@ -81,4 +81,6 @@ dependencies {
     implementation(libs.photo.picker)
 
     implementation(libs.datastore.preferences)
+
+    implementation(libs.work.runtime)
 }
