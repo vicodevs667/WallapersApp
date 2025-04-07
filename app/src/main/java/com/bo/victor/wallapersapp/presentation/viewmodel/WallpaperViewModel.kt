@@ -4,7 +4,11 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bo.victor.wallapersapp.data.repository.ImageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,19 +20,21 @@ import javax.inject.Inject
  * All rights reserved 2025
  ****/
 @HiltViewModel
-class WallpaperViewModel @Inject constructor() : ViewModel() {
-    private val _selectedImages = mutableStateListOf<Uri>()
-    val selectedImages: List<Uri> get() = _selectedImages
+class WallpaperViewModel @Inject constructor(
+    private val repository: ImageRepository
+) : ViewModel() {
+    val selectedImages: StateFlow<List<Uri>> = repository.selectedImages
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun addImage(uri: Uri) {
         viewModelScope.launch {
-            _selectedImages.add(uri)
+            repository.addImage(uri)
         }
     }
 
     fun removeImage(uri: Uri) {
         viewModelScope.launch {
-            _selectedImages.remove(uri)
+            repository.removeImage(uri)
         }
     }
 }

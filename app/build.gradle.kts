@@ -79,4 +79,6 @@ dependencies {
     implementation(libs.material.icons)
 
     implementation(libs.photo.picker)
+
+    implementation(libs.datastore.preferences)
 }

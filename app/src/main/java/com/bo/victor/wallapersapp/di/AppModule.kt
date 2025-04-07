@@ -1,8 +1,12 @@
 package com.bo.victor.wallapersapp.di
 
+import android.content.Context
+import com.bo.victor.wallapersapp.data.local.ImageDataStore
+import com.bo.victor.wallapersapp.data.repository.ImageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -19,7 +23,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideExampleDependency(): String {
-        return "This is an example dependency"
+    fun provideImageDataStore(@ApplicationContext context: Context): ImageDataStore {
+        return ImageDataStore(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideImageRepository(dataStore: ImageDataStore): ImageRepository {
+        return ImageRepository(dataStore)
     }
 }
